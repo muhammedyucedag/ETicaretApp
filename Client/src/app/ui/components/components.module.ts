@@ -12,8 +12,7 @@ import { HomeModule } from './home/home.module';
     CommonModule,
     ProductsModule,
     BasketsModule,
-    HomeModule
-    
+    HomeModule   
   ]
 })
 export class ComponentsModule { }
