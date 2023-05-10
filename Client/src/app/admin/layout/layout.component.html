@@ -1,9 +1,8 @@
-<!-- ilgili component gömüldü -->
-<!-- HEADER -->
-<app-header></app-header> 
-<!-- SİDEBAR -->
-<app-sidebar></app-sidebar>   
-<!-- FOOTER -->
-<app-footer></app-footer>
+    <mat-drawer-container class="admin-container">
+        <mat-drawer mode="side" opened class="admin-left"><app-sidebar></app-sidebar></mat-drawer>
+        <mat-drawer-content>
+            <router-outlet></router-outlet>
+        </mat-drawer-content>
+    </mat-drawer-container>
 
-<router-outlet></router-outlet>
+<app-footer></app-footer>
