@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+declare var $: any  //Jquery Tanımlaması
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ETicaretClient';
+  title = 'Sanal Pazar';
 }
+
