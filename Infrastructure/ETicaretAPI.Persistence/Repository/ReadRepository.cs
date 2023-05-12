@@ -22,44 +22,44 @@ namespace ETicaretAPI.Persistence.Repository
 
         public DbSet<T> Table => context.Set<T>();
 
-        public IQueryable<T> GetAll(bool tarcking = true)
+        public IQueryable<T> GetAll(bool tracking = true)
         {
             var query = Table.AsQueryable();
-            if (!tarcking) // tracking istenmiyorsa
+            if (!tracking) // tracking istenmiyorsa
             {
                query = query.AsNoTracking(); // AsNoTracking ile tracking kesilir
             }
             return query;
         }
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tarcking = true)
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true)
         {
             var query = Table.Where(method);
-            if (!tarcking)
+            if (!tracking)
             {
                 query = query.AsNoTracking();
             }
             return query;
         }
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tarcking = true)
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true)
         {
 
             var query = Table.AsQueryable();
-            if (!tarcking)
+            if (!tracking)
             {
                 query = Table.AsNoTracking();
             }
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<T> GetByIdAsync(string id, bool tarcking = true)
+        public async Task<T> GetByIdAsync(string id, bool tracking = true)
         //=> await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
         //=> await Table.FindAsync(Guid.Parse(id));
         {
             // AsQueryble ile çalışıyorsak find metodu yoktur. O yüzden marker interface kullanacağız
             var query = Table.AsQueryable();
-            if (!tarcking)
+            if (!tracking)
             {
                 query = Table.AsNoTracking();
             }
