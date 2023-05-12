@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from './services/ui/custom-toastr.service';
 declare var $: any  //Jquery Tanımlaması
 
 @Component({
@@ -8,5 +9,7 @@ declare var $: any  //Jquery Tanımlaması
 })
 export class AppComponent {
   title = 'Sanal Pazar';
+  constructor(){
+  }
 }
 
