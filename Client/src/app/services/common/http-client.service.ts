@@ -21,7 +21,6 @@ export class HttpClientService {
       url = requestParameter.fullEndPoint
     else
       url = `${this.url(requestParameter)}${id ? `/${id}` : ""}`;
-
     return this.httpClient.get<T>(url,{headers: requestParameter.headers});
   }
 
@@ -41,7 +40,6 @@ export class HttpClientService {
     url = requestParameter.fullEndPoint;
     else
     url=`${this.url(requestParameter)}`;
-
     return this.httpClient.put<T>(url, body, {headers:requestParameter.headers});
   }
 
