@@ -26,6 +26,21 @@
         <td mat-cell *matCellDef="let element"> {{element.updateDate}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="edit" >
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="edit" mat-cell *matCellDef="let element"> <img src="../../../../../assets/edit.png" width="30" height="30" alt=""> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="delete" mat-cell *matCellDef="let element" 
+        appDelete 
+        [id]="element.id" 
+        (callback)="getProducts()"
+        controller="product"></td>
+        <!-- <td class="delete" (click)="delete(element.id, $event)" mat-cell *matCellDef="let element"> <img src="../../../../../assets/delete.png" width="35" height="35" alt=""> </td> -->
+    </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
