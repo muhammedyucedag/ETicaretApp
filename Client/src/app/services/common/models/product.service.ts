@@ -4,6 +4,7 @@ import { Create_Product } from 'src/app/contracts/create_product';
 import { HttpErrorResponse } from '@angular/common/http';
 import { __values } from 'tslib';
 import { List_Product } from 'src/app/contracts/list_product';
+import { Observable, async, first, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,15 @@ export class ProductService {
       .catch((errorResponse:HttpErrorResponse) => errorCallBack(errorResponse.message)) 
     //Catch hata then başarılı sonuc varsa
 
-    return await promiseData;
-   }
+    return await promiseData; 
+  } 
+
+  async delete(id: string){
+    const deleteObservable: Observable<any> = this.httpClientService.delete<any>({
+      controller:"product"
+    },id)
+
+    await firstValueFrom(deleteObservable)
+  }
+  
 }
