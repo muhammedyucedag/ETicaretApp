@@ -36,6 +36,7 @@ namespace ETicaretAPI.API
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles(); // wwwroot için özel bir app
             app.UseCors();
             app.UseHttpsRedirection();
 
