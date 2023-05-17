@@ -56,6 +56,7 @@ export class DeleteDirectivet {
             })
           });
         },(errorResponse:HttpErrorResponse)=>{
+          this.spinner.hide(SpinnerType.BallAtom)
           this.alertifyService.message("Ürün silinirken beklenmeyen bir hatayla karşılandı.",{
             dismissOthers: true,
             messageType: MessageType.Error,
