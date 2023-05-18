@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  
+  postgres:
+    container_name: 'eticaret-postgres'
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 1q2w3e4R
+    volumes:
+      - postgres:/data
+    networks:
+      - eticaretApp-network
+
+
+volumes:
+  postgres:
+    driver: local
+    
+networks:
+  eticaretApp-network:
+    driver: bridge
