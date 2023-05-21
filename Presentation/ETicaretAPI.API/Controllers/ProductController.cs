@@ -1,8 +1,10 @@
 ﻿using ETicaretAPI.Application.Repository;
+using ETicaretAPI.Application.Repository.ProductImageFile;
 using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.Services;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entites;
+using ETicaretAPI.Persistence.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -16,18 +18,36 @@ namespace ETicaretAPI.API.Controllers
         readonly private IProductWriteRepository productWriteRepository;
         readonly private IProductReadRepository productReadRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly IFileService fileService;
+        readonly IFileService fileService;
+        readonly IFileWriteRepository fileWriteRepository;
+        readonly IFileReadRepository fileReadRepository;
+        readonly IProductImageFileReadRepository productImageFileReadRepository;
+        readonly IProductImageFileWriteRepository productImageFileWriteRepository;
+        readonly IInvoiceFileReadRepository invoiceFileReadRepository;
+        readonly IInvoiceFileWriteRepository invoiceFileWriteRepository;
 
         public ProductController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
             IWebHostEnvironment webHostEnvironment,
-            IFileService fileService)
+            IFileService fileService,
+            IFileWriteRepository fileWriteRepository,
+            IFileReadRepository fileReadRepository,
+            IProductImageFileReadRepository productImageFileReadRepository,
+            IProductImageFileWriteRepository productImageFileWriteRepository,
+            IInvoiceFileReadRepository invoiceFileReadRepository,
+            IInvoiceFileWriteRepository invoiceFileWriteRepository)
         {
             this.productWriteRepository = productWriteRepository;
             this.productReadRepository = productReadRepository;
             this.webHostEnvironment = webHostEnvironment;
             this.fileService = fileService;
+            this.fileWriteRepository = fileWriteRepository;
+            this.fileReadRepository = fileReadRepository;
+            this.productImageFileReadRepository = productImageFileReadRepository;
+            this.productImageFileWriteRepository = productImageFileWriteRepository;
+            this.invoiceFileReadRepository = invoiceFileReadRepository;
+            this.invoiceFileWriteRepository = invoiceFileWriteRepository;
         }
 
         [HttpGet]
@@ -93,7 +113,33 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-            await fileService.UploadAsync("resource/product-images", Request.Form.Files);
+            var datas = await fileService.UploadAsync("resource/file-images", Request.Form.Files);
+            //await productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            //{
+            //    FileName = d.fileName,
+            //    Path = d.path,
+            //}).ToList());
+            //await productImageFileWriteRepository.SaveAsync();
+
+            //await invoiceFileWriteRepository.AddRangeAsync(datas.Select(d => new InvoiceFile()
+            //{
+            //    FileName = d.fileName,
+            //    Path = d.path,
+            //    Price = new Random().Next()
+            //}).ToList());
+            //await invoiceFileWriteRepository.SaveAsync();
+
+            //await fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entites.File()
+            //{
+            //    FileName = d.fileName,
+            //    Path = d.path,
+            //}).ToList());
+            //await fileWriteRepository.SaveAsync();
+
+            //var data1 =  fileReadRepository.GetAll(false);
+            //var data2 =  invoiceFileReadRepository.GetAll(false);
+            //var data3 =  productImageFileReadRepository.GetAll(false);
+
             return Ok();
         }
     }
