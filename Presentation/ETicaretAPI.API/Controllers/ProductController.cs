@@ -97,12 +97,12 @@ namespace ETicaretAPI.API.Controllers
                 Directory.CreateDirectory(uploadPath);
             }
 
-            Random random = new();
-            foreach (IFormFile file in Request.Form.Files)
-            {
-                string fullpath = Path.Combine(uploadPath, $"{random.Next()}{Path.GetExtension(file.FileName)}");               
-                using FileStream fileStream = new(fullpath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
-                await file.CopyToAsync(fileStream);
+            //await fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entites.File()
+            //{
+            //    FileName = d.fileName,
+            //    Path = d.path,
+            //}).ToList());
+            //await fileWriteRepository.SaveAsync();
 
                 // gerekli temizleme işlemi gerçekleşti
                 await fileStream.FlushAsync();
