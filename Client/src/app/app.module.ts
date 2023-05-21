@@ -12,6 +12,8 @@ import { BaseComponent } from './base/base.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
+import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { FileUploadComponent } from './services/common/file-upload/file-upload.c
     AdminModule,UiModule,
     ToastrModule.forRoot(),
     NgxSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [
     {provide:"baseUrl", useValue:"https://localhost:7164/api", multi: true}
