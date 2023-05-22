@@ -1,0 +1,45 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form [formGroup]="registerFormGroup" (ngSubmit)="onSubmit(registerFormGroup.value)">
+            <div class="mb-3">
+                <label for="nameSurname" class="form-label">Ad Soyad</label>
+                <input type="text" formControlName="nameSurname" class="form-control" placeholder="Adınız Soyadınız" id="nameSurname" 
+                [ngClass]="{'is-invalid':submitted && component.nameSurname.errors}">
+                <div *ngIf="submitted && component.nameSurname.errors?.required" class="form-text invalid-feedback">Ad soyad alanı boş geçilemez.</div>
+                <div *ngIf="submitted && (component.nameSurname.errors?.maxlength || component.nameSurname.errors?.minlength)" class="form-text invalid-feedback">Ad soyad alanı 3 ile 50 karakter arasında olmalıdır.</div>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Kullanıcı Adı</label>
+                <input type="text" formControlName="username" class="form-control" id="username" placeholder="Kullanıcı Adınız"
+                [ngClass]="{'is-invalid':submitted && component.username.errors}">
+                <div *ngIf="submitted && component.username.errors?.required" class="form-text invalid-feedback">Kullanıcı alanı boş geçilemez.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" formControlName="email" class="form-control" id="email" placeholder="Email Adresiniz"
+                [ngClass]="{'is-invalid':submitted && component.email.errors}">
+                <div *ngIf="submitted && component.email.errors?.required" class="form-text invalid-feedback">Email alanı boş geçilemez.</div>
+                <div *ngIf="submitted && component.email.errors?.email" class="form-text invalid-feedback">Email adresi doğru formatta olmalıdır.</div>               
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Şifre</label>
+                <input type="password" formControlName="password" class="form-control" placeholder="Şifreniz" id="password"
+                [ngClass]="{'is-invalid':submitted && component.password.errors}">
+                <div id="emailHelp" class="form-text"></div>
+            </div>
+            <div class="mb-3">
+                <label for="passwordRepeat" class="form-label">Şifre Tekrarı</label>
+                <input type="password" formControlName="passwordRepeat" class="form-control" placeholder="Şifre tekrarı" id="passwordRepeat"
+                [ngClass]="{'is-invalid':submitted && component.passwordRepeat.errors}">
+                <div class="text-danger form-text" *ngIf="submitted && registerFormGroup.hasError('notSame')">Şifreyi doğrulayınız.</div>
+            </div>
+            <button type="submit" class="btn btn-danger">Kayıt Ol</button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+<form>
+
