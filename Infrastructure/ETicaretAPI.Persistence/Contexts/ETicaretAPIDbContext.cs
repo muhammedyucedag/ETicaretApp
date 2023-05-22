@@ -1,5 +1,7 @@
 ﻿using ETicaretAPI.Domain.Entites;
 using ETicaretAPI.Domain.Entites.Common;
+using ETicaretAPI.Domain.Entites.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,12 +11,10 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Persistence.Contexts
 {
-    public class ETicaretAPIDbContext : DbContext
+    public class ETicaretAPIDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         public ETicaretAPIDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
+        {}
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -42,7 +42,7 @@ namespace ETicaretAPI.Persistence.Contexts
                     _ => DateTime.UtcNow,
                 };
             }
-                
+
 
             return await base.SaveChangesAsync(cancellationToken);
         }

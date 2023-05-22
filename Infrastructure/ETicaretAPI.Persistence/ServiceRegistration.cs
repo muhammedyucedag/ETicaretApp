@@ -11,15 +11,26 @@ using ETicaretAPI.Application.Repository;
 using ETicaretAPI.Persistence.Repository;
 using ETicaretAPI.Persistence.Repository.File;
 using ETicaretAPI.Application.Repository.ProductImageFile;
+using ETicaretAPI.Domain.Entites.Identity;
 
 namespace ETicaretAPI.Persistence
 {
     public static class ServiceRegistration
     {
-
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+
+            // identity mekanizmasına dair tüm stores işlemlerini yapacağımız satır
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
+
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
 

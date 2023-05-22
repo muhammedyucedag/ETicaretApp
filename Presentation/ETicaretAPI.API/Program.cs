@@ -1,3 +1,4 @@
+using ETicaretAPI.Application;
 using ETicaretAPI.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
 using ETicaretAPI.Infrastructure.Filters;
@@ -15,6 +16,7 @@ namespace ETicaretAPI.API
 
             builder.Services.AddPersistenceServices();
             builder.Services.AddInfrastructureServices();
+            builder.Services.AddApplicationServices();
 
             //builder.Services.AddStorge(StorageType.Azure);
             builder.Services.AddStorage<LocalStorage>();

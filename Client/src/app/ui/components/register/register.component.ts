@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Create_User } from 'src/app/contracts/users/create_user';
 import { User } from 'src/app/entities/user';
+import { UserService } from 'src/app/services/common/models/user.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +13,7 @@ import { User } from 'src/app/entities/user';
 export class RegisterComponent {
 [x: string]: any;
 
-  constructor(private formBuilder: FormBuilder)
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private toastrService:CustomToastrService)
   {
   }
 
@@ -49,11 +52,23 @@ export class RegisterComponent {
   }
 
   submitted: boolean = false;
-  onSubmit(data:User){
+  async onSubmit(user:User){
     this.submitted = true;
 
     if(this.registerFormGroup.invalid)
     return;
+
+    const result: Create_User = await this.userService.create(user);
+    if(result.succeeded)
+      this.toastrService.message(result.message,"Kullanıcı Kaydı Başarılı",{
+        messageType: ToastrMessageType.Success,
+        position:ToastrPosition.BottomFullWidth
+      })
+    else 
+    this.toastrService.message(result.message,"Hata",{
+      messageType: ToastrMessageType.Error,
+      position:ToastrPosition.BottomFullWidth
+    })
   }
 
 }
