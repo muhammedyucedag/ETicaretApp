@@ -28,7 +28,7 @@ export class FileUploadComponent {
 
   public files: NgxFileDropEntry[];
 
-  @Input() options:Partial<FileUploadOptions>;
+  @Input() options: Partial<FileUploadOptions>;
   
 
   // seçilen tüm dosyalar fileData içerisine koyuldu

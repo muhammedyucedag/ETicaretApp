@@ -97,41 +97,18 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
-            var datas = await storageService.UploadAsync("resource/files", Request.Form.Files);
+           List<(string fileName, string pathOrContainerName)> result =  await storageService.UploadAsync("photo-images", Request.Form.Files);
 
-            //var datas = await fileService.UploadAsync("resource/file-images", Request.Form.Files);
-
-            await productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            await productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
             {
-                FileName = d.fileName,
-                Path = d.pathOrContainerName,
+                FileName = r.fileName,
+                Path = r.pathOrContainerName,
                 Storage = storageService.StorageName
             }).ToList());
+
             await productImageFileWriteRepository.SaveAsync();
-
-
-            //await invoiceFileWriteRepository.AddRangeAsync(datas.Select(d => new InvoiceFile()
-            //{
-            //    FileName = d.fileName,
-            //    Path = d.path,
-            //    Price = new Random().Next()
-            //}).ToList());
-            //await invoiceFileWriteRepository.SaveAsync();
-
-            //await fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entites.File()
-            //{
-            //    FileName = d.fileName,
-            //    Path = d.path,
-            //}).ToList());
-            //await fileWriteRepository.SaveAsync();
-
-
-            //var data1 =  fileReadRepository.GetAll(false);
-            //var data2 =  invoiceFileReadRepository.GetAll(false);
-            //var data3 =  productImageFileReadRepository.GetAll(false);
-
             return Ok();
         }
     }

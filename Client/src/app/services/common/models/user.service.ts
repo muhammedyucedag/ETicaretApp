@@ -13,7 +13,7 @@ export class UserService {
 
   async create(user:User): Promise<Create_User>{
     const observable : Observable<Create_User | User> = this.httpClientService.post<Create_User | User>({
-      controller:"users"
+      controller:"Users"
     },user);
 
     return await firstValueFrom(observable) as Create_User;

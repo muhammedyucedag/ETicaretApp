@@ -30,9 +30,9 @@
                 <div id="emailHelp" class="form-text"></div>
             </div>
             <div class="mb-3">
-                <label for="passwordRepeat" class="form-label">Şifre Tekrarı</label>
-                <input type="password" formControlName="passwordRepeat" class="form-control" placeholder="Şifre tekrarı" id="passwordRepeat"
-                [ngClass]="{'is-invalid':submitted && component.passwordRepeat.errors}">
+                <label for="passwordConfirm" class="form-label">Şifre Tekrarı</label>
+                <input type="password" formControlName="passwordConfirm" class="form-control" placeholder="Şifre tekrarı" id="passwordConfirm"
+                [ngClass]="{'is-invalid':submitted && component.passwordConfirm.errors}">
                 <div class="text-danger form-text" *ngIf="submitted && registerFormGroup.hasError('notSame')">Şifreyi doğrulayınız.</div>
             </div>
             <button type="submit" class="btn btn-danger">Kayıt Ol</button>

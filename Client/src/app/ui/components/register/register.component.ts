@@ -38,12 +38,12 @@ export class RegisterComponent {
       ]],
       password:["",
         Validators.required],
-      passwordRepeat:["",
+        passwordConfirm:["",
         Validators.required],   
     },{validators: (group: AbstractControl) : ValidationErrors | null=>{
       let password = group.get("password").value;
-      let passwordRepeat = group.get("passwordRepeat").value
-      return password === passwordRepeat ? null : {notSame:true};
+      let passwordConfirm = group.get("passwordConfirm").value
+      return password === passwordConfirm ? null : {notSame:true};
     }})
   }
 
@@ -54,6 +54,8 @@ export class RegisterComponent {
   submitted: boolean = false;
   async onSubmit(user:User){
     this.submitted = true;
+
+    debugger;
 
     if(this.registerFormGroup.invalid)
     return;
