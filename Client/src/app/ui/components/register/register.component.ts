@@ -54,9 +54,6 @@ export class RegisterComponent {
   submitted: boolean = false;
   async onSubmit(user:User){
     this.submitted = true;
-
-    debugger;
-
     if(this.registerFormGroup.invalid)
     return;
 

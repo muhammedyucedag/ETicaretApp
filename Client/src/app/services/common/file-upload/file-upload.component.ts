@@ -26,10 +26,9 @@ export class FileUploadComponent {
     private spinner: NgxSpinnerService) {
   }
 
-  public files: NgxFileDropEntry[];
+  public files: NgxFileDropEntry[];load
 
   @Input() options: Partial<FileUploadOptions>;
-  
 
   // seçilen tüm dosyalar fileData içerisine koyuldu
   public selectedFiles(files: NgxFileDropEntry[]) {
@@ -53,7 +52,6 @@ export class FileUploadComponent {
         queryString: this.options.queryString,
         headers: new HttpHeaders({"responseType": "blob"})
       },fileData).subscribe(data=>{
-  
         const message: string="Dosyalar başarılı bir şekilde yüklendi."
         this.spinner.hide(SpinnerType.BallAtom)
         if(this.options.isAdminPage){
@@ -88,7 +86,6 @@ export class FileUploadComponent {
             position: ToastrPosition.BottomCenter
           })
         }
-  
       });
       }
     });
