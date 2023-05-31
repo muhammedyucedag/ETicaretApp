@@ -107,17 +107,6 @@ namespace ETicaretAPI.API.Controllers
 
             Product product = await productReadRepository.GetByIdAsync(id);
 
-            //foreach (var item in result)
-            //{
-            //    product.ProductImageFiles.Add(new()
-            //    {
-            //        FileName = item.fileName,
-            //        Path = item.pathOrContainerName,
-            //        Storage = storageService.StorageName,
-            //        Products = new List<Product>() { product }
-            //    });
-            //}
-
             await productImageFileWriteRepository.AddRangeAsync(result.Select(productImage => new ProductImageFile
             {
                 FileName = productImage.fileName,

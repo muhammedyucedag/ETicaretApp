@@ -6,7 +6,6 @@ import { ProductService } from 'src/app/services/common/models/product.service';
 import { List_Product_Image } from 'src/app/contracts/list_product_images';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SpinnerType } from 'src/app/base/base.component';
-import { MatCard } from '@angular/material/card';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { DeleteDialogComponent, DeleteState } from '../delete-dialog/delete-dialog.component';
 
@@ -44,21 +43,16 @@ export class SelectProductImageDialogComponent extends BaseDialog<SelectProductI
   }
 
   async deleteImage(imageId:string, event: any){
-
     this.dialogService.openDialog({
       componentType:DeleteDialogComponent,
       data:DeleteState.Yes,
       afterClosed: async()=> {
-        this.spinner.show(SpinnerType.BallAtom);
         await this.productService.deleteImage(this.data as string, imageId, () => {
-          this.spinner.hide(SpinnerType.BallAtom);
           var card = $(event.srcElement).parent().parent();
           card.fadeOut(500);
         });
       }
     })
-
-    
   }
 }
 
