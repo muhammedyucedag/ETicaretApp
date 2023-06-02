@@ -1,4 +1,11 @@
 ﻿using ETicaretAPI.Application.Abstractions.Storage;
+using ETicaretAPI.Application.Features.Commands.CreateProduct;
+using ETicaretAPI.Application.Features.Queries.GetAllProduct;
+using ETicaretAPI.Application.Repository;
+using ETicaretAPI.Application.Repository.ProductImageFile;
+using ETicaretAPI.Application.ViewModels.Products;
+using ETicaretAPI.Domain.Entites;
+using MediatR;
 using ETicaretAPI.Application.Repository;
 using ETicaretAPI.Application.Repository.ProductImageFile;
 using ETicaretAPI.Application.RequestParameters;
@@ -7,6 +14,7 @@ using ETicaretAPI.Domain.Entites;
 using ETicaretAPI.Persistence.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ETicaretAPI.API.Controllers
@@ -25,6 +33,9 @@ namespace ETicaretAPI.API.Controllers
         readonly IInvoiceFileReadRepository invoiceFileReadRepository;
         readonly IInvoiceFileWriteRepository invoiceFileWriteRepository;
         readonly IStorageService storageService;
+        readonly IConfiguration configuration;
+
+        readonly IMediator mediator;
 
         public ProductController(
             IProductWriteRepository productWriteRepository,
@@ -36,6 +47,9 @@ namespace ETicaretAPI.API.Controllers
             IProductImageFileWriteRepository productImageFileWriteRepository,
             IInvoiceFileReadRepository invoiceFileReadRepository,
             IInvoiceFileWriteRepository invoiceFileWriteRepository,
+            IStorageService storageService,
+            IMediator mediator,
+            IConfiguration configuration)
             IStorageService storageService)
         {
             this.productWriteRepository = productWriteRepository;
@@ -48,28 +62,15 @@ namespace ETicaretAPI.API.Controllers
             this.invoiceFileReadRepository = invoiceFileReadRepository;
             this.invoiceFileWriteRepository = invoiceFileWriteRepository;
             this.storageService = storageService;
+            this.mediator = mediator;
+            this.configuration = configuration;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            var totalCount = productReadRepository.GetAll(false).Count();
-            var products = productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
-            {
-                p.Id,
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreatedDate,
-                p.UpdateDate
-
-            }).ToList();
-
-            return Ok(new
-            {
-                totalCount,
-                products
-            });
+            GetAllProductQueryResponse response = await mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -79,15 +80,9 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VM_Create_Product model)
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
-            await productWriteRepository.AddAsync(new()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Stock = model.Stock
-            });
-            await productWriteRepository.SaveAsync();
+            CreateProductCommandResponse response = await mediator.Send(createProductCommandRequest);
             return StatusCode((int)HttpStatusCode.Created);
         }
 
@@ -111,8 +106,18 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
+           List<(string fileName, string pathOrContainerName)> result =  await storageService.UploadAsync("photo-images", Request.Form.Files);
+
+            Product product = await productReadRepository.GetByIdAsync(id);
+
+            await productImageFileWriteRepository.AddRangeAsync(result.Select(productImage => new ProductImageFile
+            {
+                FileName = productImage.fileName,
+                Path = productImage.pathOrContainerName,
+                Storage = storageService.StorageName,
+                Products = new List<Product>() { product }
             var datas = await storageService.UploadAsync("resource/files", Request.Form.Files);
 
             //var datas = await fileService.UploadAsync("resource/file-images", Request.Form.Files);
@@ -125,12 +130,34 @@ namespace ETicaretAPI.API.Controllers
             }).ToList());
             await productImageFileWriteRepository.SaveAsync();
 
-            //await fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entites.File()
-            //{
-            //    FileName = d.fileName,
-            //    Path = d.path,
-            //}).ToList());
-            //await fileWriteRepository.SaveAsync();
+            }).ToList());
+
+            await productImageFileWriteRepository.SaveAsync();
+            return Ok();
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)
+        {
+            Product? product = await  productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+            return Ok(product.ProductImageFiles.Select(p => new
+            {
+                Path = $"{configuration["BaseStorageUrl"]}/{p.Path}",
+                p.FileName,
+                p.Id
+            }));
+        }
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteProductImage(string id, string ImageId)
+        {
+            Product? product = await productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+            ProductImageFile productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(ImageId));
+
+            product.ProductImageFiles.Remove(productImageFile);
+            await productWriteRepository.SaveAsync();
 
             return Ok();
         }
