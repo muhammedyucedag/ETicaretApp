@@ -6,6 +6,13 @@ using ETicaretAPI.Application.Repository.ProductImageFile;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entites;
 using MediatR;
+using ETicaretAPI.Application.Repository;
+using ETicaretAPI.Application.Repository.ProductImageFile;
+using ETicaretAPI.Application.RequestParameters;
+using ETicaretAPI.Application.ViewModels.Products;
+using ETicaretAPI.Domain.Entites;
+using ETicaretAPI.Persistence.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -43,6 +50,7 @@ namespace ETicaretAPI.API.Controllers
             IStorageService storageService,
             IMediator mediator,
             IConfiguration configuration)
+            IStorageService storageService)
         {
             this.productWriteRepository = productWriteRepository;
             this.productReadRepository = productReadRepository;
@@ -110,6 +118,17 @@ namespace ETicaretAPI.API.Controllers
                 Path = productImage.pathOrContainerName,
                 Storage = storageService.StorageName,
                 Products = new List<Product>() { product }
+            var datas = await storageService.UploadAsync("resource/files", Request.Form.Files);
+
+            //var datas = await fileService.UploadAsync("resource/file-images", Request.Form.Files);
+
+            await productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            {
+                FileName = d.fileName,
+                Path = d.pathOrContainerName,
+                Storage = storageService.StorageName
+            }).ToList());
+            await productImageFileWriteRepository.SaveAsync();
 
             }).ToList());
 
