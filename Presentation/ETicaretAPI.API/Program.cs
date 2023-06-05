@@ -6,6 +6,9 @@ using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
 using ETicaretAPI.Persistence;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ETicaretAPI.API
 {
@@ -37,6 +40,24 @@ namespace ETicaretAPI.API
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer("Admin", options =>
+                {
+                    // uygulamaya token üzerinden doðrularken buradaki Configuration üzerinden doðrula
+                    options.TokenValidationParameters = new()
+                    {
+                        ValidateAudience = true, // Oluþturulacak token deðerini kimlerin/hangi orginlerin/sitelerin kullanýcý belirlediðimiz deðerdir.
+                        ValidateIssuer = true, // Oluþturacak token deðerini kimin daðýttýðýný ifade edeceðimiz alandýr.
+                        ValidateLifetime = true, // Oluþturulan token deðerinin süresini kontrol edecek doðrulamadýr.
+                        ValidateIssuerSigningKey = true, // Üretilecek token deðerinin uygulamamýza ait bir deðer olduðunu ifade eden doðrulamadýr.
+
+                        // hangi deðerler ile doðrulama yapýlacak
+
+                        ValidAudience = builder.Configuration["Token:Audience"],
+                        ValidIssuer = builder.Configuration["Token:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+                    };
+                });
 
             var app = builder.Build();
 
@@ -49,6 +70,8 @@ namespace ETicaretAPI.API
             app.UseStaticFiles(); // wwwroot için özel bir app
             app.UseCors();
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
