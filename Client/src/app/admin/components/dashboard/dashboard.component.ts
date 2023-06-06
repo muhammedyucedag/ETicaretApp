@@ -16,7 +16,6 @@ export class DashboardComponent  extends BaseComponent{
   }
 
   ngOnInit():void{
-    this.showSpinner(SpinnerType.BallAtom);
   }
   m(){
     this.alertify.message("Yönetim paneline hoşgeldiniz",{
