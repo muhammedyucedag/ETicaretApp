@@ -11,11 +11,10 @@
                     <label for="password" class="form-label">Şifre</label>
                     <input #txtPassword type="password" formControlName="password" class="form-control" placeholder="Şifreniz" id="password">
                 </div>
-                <div class="col-md-8">
-                    <a class="btn btn-icon btn-outline-primary mx-1">
-                        <asl-google-signin-button></asl-google-signin-button>
-                    </a>
-                </div>                
+                <div>
+                    <asl-google-signin-button></asl-google-signin-button>
+                </div>
+                <br>
                 <button type="submit" class="btn btn-danger" (click)="login(txtUsernameOrEmail.value, txtPassword.value)">Giriş yap</button>
         </div>
         <div class="col-md-3"></div>
