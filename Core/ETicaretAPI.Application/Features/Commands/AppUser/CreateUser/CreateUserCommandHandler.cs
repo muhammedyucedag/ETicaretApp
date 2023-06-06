@@ -1,43 +1,36 @@
-﻿    using ETicaretAPI.Application.Exceptions;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.DTOs.User;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
-        readonly UserManager<Domain.Entites.Identity.AppUser> userManager;
-        public CreateUserCommandHandler(UserManager<Domain.Entites.Identity.AppUser> userManager)
+        readonly IUserService _userService;
+
+        public CreateUserCommandHandler(IUserService userService)
         {
-            this.userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-            IdentityResult result = await userManager.CreateAsync(new()
+
+            CreateUserResponseDto response = await _userService.CreateAsync(new()
             {
-                Id = Guid.NewGuid().ToString(),
-                UserName = request.Username,
                 Email = request.Email,
                 NameSurname = request.NameSurname,
+                Password = request.Password,
+                PasswordConfirm = request.PasswordConfirm,
+                UserName = request.Username,
+            });
 
-            }, request.Password);
-
-            CreateUserCommandResponse response = new() { Succeeded = result.Succeeded};
-
-            if (result.Succeeded)
+            return new()
             {
-                response.Message = "Hesabınız başarılı bir şekilde oluşturuldu";
-            }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    response.Message += $"{error.Code} - {error.Description}<br>";
-                }
-            }
+                Message = response.Message,
+                Succeeded = response.Succeeded,
 
-            return response;
+            };
 
             //throw new UserCreateFailedException();
         }
