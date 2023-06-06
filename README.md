@@ -48,7 +48,7 @@ On the Admin Side:
 - Alertify
 
 
-#ETicaretClient
+# ETicaretClient
 This project is a E-Commerce Project. ASP.NET Core 6 + Angular + Onion Architecture
 
 Technologies and structures used
