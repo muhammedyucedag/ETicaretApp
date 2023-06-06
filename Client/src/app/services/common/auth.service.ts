@@ -25,7 +25,7 @@ export class AuthService {
 
 get isAuthenticated(): boolean {
     return _isAuthenticated;
-}
+}   
 }
 
 export let _isAuthenticated: boolean;
