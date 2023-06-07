@@ -24,34 +24,12 @@ namespace ETicaretAPI.API.Controllers
     [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductController : ControllerBase
     {
-        readonly private IProductWriteRepository productWriteRepository;
-        readonly private IProductReadRepository productReadRepository;
-        readonly IProductImageFileWriteRepository productImageFileWriteRepository;
-        readonly IStorageService storageService;
-        readonly IConfiguration configuration;
 
         readonly IMediator mediator;
 
-        public ProductController(
-            IProductWriteRepository productWriteRepository,
-            IProductReadRepository productReadRepository,
-            IWebHostEnvironment webHostEnvironment,
-            IFileWriteRepository fileWriteRepository,
-            IFileReadRepository fileReadRepository,
-            IProductImageFileReadRepository productImageFileReadRepository,
-            IProductImageFileWriteRepository productImageFileWriteRepository,
-            IInvoiceFileReadRepository invoiceFileReadRepository,
-            IInvoiceFileWriteRepository invoiceFileWriteRepository,
-            IStorageService storageService,
-            IMediator mediator,
-            IConfiguration configuration)
+        public ProductController(IMediator mediator)
         {
-            this.productWriteRepository = productWriteRepository;
-            this.productReadRepository = productReadRepository;
-            this.productImageFileWriteRepository = productImageFileWriteRepository;
-            this.storageService = storageService;
             this.mediator = mediator;
-            this.configuration = configuration;
         }
 
         [HttpGet]

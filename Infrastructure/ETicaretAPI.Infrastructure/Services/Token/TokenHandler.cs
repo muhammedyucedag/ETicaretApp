@@ -1,10 +1,7 @@
 ﻿using ETicaretAPI.Application.Abstractions.Token;
-using ETicaretAPI.Application.DTOs;
-using ETicaretAPI.Domain.Entites.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -45,27 +42,17 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             JwtSecurityTokenHandler tokenHandler = new();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
 
-            ////string refreshToken = CreateRefreshToken();
-            //token.RefreshToken = CreateRefreshToken();
+            token.RefreshToken = CreateRefreshToken();
 
             return token;
         }
 
-        //public string CreateRefreshToken()
-        //{
-        //    byte[] number = new byte[32];
-
-        //    //IDisposable türünde olan nesneler kullanilirken using ile kullanilirlar. Eger ilgili nesneden sonra baska fonksiyonlar kullanilacaksa {} tirnakli versiyonu tercih edilebilir. Ilgili scope kapandiktan sonra bu metot hafizadan cikartilir.
-
-        //    //using (RandomNumberGenerator random = RandomNumberGenerator.Create())
-        //    //{
-
-        //    //}
-
-        //    using RandomNumberGenerator random = RandomNumberGenerator.Create();
-        //    random.GetBytes(number);
-        //    return Convert.ToBase64String(number);
-
-        //}
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+            return Convert.ToBase64String(number);
+        }
     }
 }

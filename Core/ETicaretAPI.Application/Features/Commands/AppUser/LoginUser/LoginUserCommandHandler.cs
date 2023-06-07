@@ -1,9 +1,5 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
-using ETicaretAPI.Application.Abstractions.Token;
-using ETicaretAPI.Application.DTOs;
-using ETicaretAPI.Application.Exceptions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.LoginUser
 {
