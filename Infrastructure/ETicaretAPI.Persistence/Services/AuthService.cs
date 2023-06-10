@@ -65,6 +65,7 @@ namespace ETicaretAPI.Persistence.Services
             throw new Exception("Invalid external authentication");
         }
 
+        // Facebook Login işlemi
         public async Task<Token> FacebookLoginAsync(string authToken, int accessTokenLifeTime)
         {
             string accessTokenResponse = await _httpClient.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id={_configuration["ExternalLoginSettings:Facebook:Client_Id"]}&client_secret={_configuration["ExternalLoginSettings:Facebook:Client_Secret"]}&grant_type=client_credentials");
@@ -91,6 +92,7 @@ namespace ETicaretAPI.Persistence.Services
             throw new Exception("Invalid external authentication");
         }
 
+        // Google Login işlemi
         public async Task<Token> GoogleLoginAsync(string idToken, int accessTokenLifeTime)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
@@ -106,6 +108,7 @@ namespace ETicaretAPI.Persistence.Services
             return await  CreateUserExternalAsync(user, payload.Email, payload.Name, info, accessTokenLifeTime);
         }
 
+        // Login işlemi
         public async Task<Token> LoginAsync(string usernameOrEmail, string password, int accessTokenLifeTime)
         {
             var user = await _userManager.FindByNameAsync(usernameOrEmail);
