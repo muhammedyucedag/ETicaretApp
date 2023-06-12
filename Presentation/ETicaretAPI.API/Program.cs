@@ -6,6 +6,7 @@ using ETicaretAPI.Infrastructure;
 using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using ETicaretAPI.Persistence;
+using ETicaretAPI.SignalR;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
@@ -28,6 +29,7 @@ namespace ETicaretAPI.API
             builder.Services.AddPersistenceServices();
             builder.Services.AddInfrastructureServices();
             builder.Services.AddApplicationServices();
+            builder.Services.AddSignalRServices(builder.Configuration);
 
             //builder.Services.AddStorge(StorageType.Azure);
             //builder.Services.AddStorage<LocalStorage>();
@@ -35,7 +37,7 @@ namespace ETicaretAPI.API
 
             // cors politikasýný ayarlamamý saðlayan servis
             builder.Services.AddCors(options => options.AddDefaultPolicy
-            (policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
+            (policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
             Logger log = new LoggerConfiguration()
                 .WriteTo.Console()
@@ -132,6 +134,7 @@ namespace ETicaretAPI.API
             });
 
             app.MapControllers();
+            app.MapHubs();
 
             app.Run();
         }

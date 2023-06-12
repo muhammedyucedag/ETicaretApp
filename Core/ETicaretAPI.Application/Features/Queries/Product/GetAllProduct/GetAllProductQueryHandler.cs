@@ -16,7 +16,6 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Ürünlerin Hepsi Getirildi.");
-            throw new Exception("Hata alındı");
             var totalCount = productReadRepository.GetAll(false).Count();
             var products = productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
             {
