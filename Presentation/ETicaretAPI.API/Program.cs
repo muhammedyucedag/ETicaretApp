@@ -1,4 +1,5 @@
 using ETicaretAPI.API.Configurations.ColumnWriters;
+using ETicaretAPI.API.Extensions;
 using ETicaretAPI.Application;
 using ETicaretAPI.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
@@ -107,7 +108,9 @@ namespace ETicaretAPI.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
+            app.ConfigureExceptionHandler(Log.Logger);
+
             app.UseStaticFiles(); // wwwroot için özel bir app
 
             app.UseSerilogRequestLogging(); // kendisinden önceki loglarý loglatmýyor sonrakileri logluyor

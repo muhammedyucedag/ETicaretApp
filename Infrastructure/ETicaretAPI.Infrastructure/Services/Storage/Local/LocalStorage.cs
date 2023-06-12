@@ -23,7 +23,7 @@ namespace ETicaretAPI.Infrastructure.Services.Storage.Local
         {
             DirectoryInfo directory = new (path);
             return directory.GetFiles().Select(f=>f.Name).ToList();
-        }
+        }   
 
         public bool HasFile(string path, string fileName) 
             => File.Exists($"{path}\\{fileName}");
