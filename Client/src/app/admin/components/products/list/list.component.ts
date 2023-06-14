@@ -34,13 +34,13 @@ export class ListComponent extends BaseComponent{
 
   async getProducts(){
     this.showSpinner(SpinnerType.BallAtom);
-    const allProducts: {totalCount:number; products:List_Product[]} = await this.productService.read(this.paginator ? this.paginator.pageIndex : 0 ,this.paginator ? this.paginator.pageSize : 5, () => this.hideSpinner(SpinnerType.BallAtom),erroMessage => this.alertifyService.message(erroMessage,{
+    const allProducts: {totalProductCount:number; products:List_Product[]} = await this.productService.read(this.paginator ? this.paginator.pageIndex : 0 ,this.paginator ? this.paginator.pageSize : 5, () => this.hideSpinner(SpinnerType.BallAtom),erroMessage => this.alertifyService.message(erroMessage,{
       dismissOthers: true,
       messageType: MessageType.Error,
       position: Position.BottomCenter
     }))
     this.dataSource = new MatTableDataSource<List_Product>(allProducts.products);
-    this.paginator.length = allProducts.totalCount;
+    this.paginator.length = allProducts.totalProductCount;
   }
 
   addProductImages(id: string){

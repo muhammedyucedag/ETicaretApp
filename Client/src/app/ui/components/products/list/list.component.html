@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="card" 
+    *ngFor="let product of products;">
+        <img *ngIf="!product.productImageFiles.length" class="card-img-top" src="../../../../../assets/default_icon.png" alt="Card image cap">
+        <img *ngIf="product.productImageFiles.length" class="card-img-top" src="{{baseUrl.url}}/{{product.imagePath}}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{product.name}}</h5>
+            <p class="card-text">{{product.price | currency: '₺'}}</p>
+            <a href="#" class="btn btn-secondary">Sepete ekle</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <nav aria-label="Page navigation example"> 
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link">
+                    {{currentPageNo}}/{{totalPageCount}}
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" [routerLink]="['/products', currentPageNo - 1 <= 0 ? 1 : currentPageNo - 1]">
+                    Önceki
+                </a>
+            </li>
+            <li class="page-item" *ngFor="let pageNo of pageList;" routerLinkActive="active">
+                <a class="page-link" [routerLink]="['/products', pageNo]">
+                    {{pageNo}}
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" [routerLink]="['/products', currentPageNo + 1 >= totalPageCount ? totalPageCount: currentPageNo + 1]">
+                    Sonraki
+                </a>
+            </li>
+        </ul>
+    </nav>  
+</div>

@@ -5,7 +5,7 @@
 
     <mat-card class="product-image-card" *ngFor="let image of images">
         <mat-card-header>
-
+            <input type="radio" name="img" (click)="showCase(image.id)"/>
         </mat-card-header>
         <img mat-card-image [src]="image.path">
         <mat-card-content>
@@ -15,10 +15,12 @@
         <button mat-button class="mat-button" (click)="deleteImage(image.id, $event)">Sil</button>
         </mat-card-actions>
     </mat-card>
-
-
 </mat-dialog-content>
+
+
+<br>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+    <button mat-button mat-dialog-close>İptal Et</button>
+    <br><br><br>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Yükle</button>
 </mat-dialog-actions>

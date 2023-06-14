@@ -30,9 +30,9 @@ export class ProductService {
       errorCallBack(message);
     });
   }
-
-  async read(page:number = 0, size:number = 5 ,successCallBack?: () => void, errorCallBack?:(errorMessage:string) => void){ //Gerite değer döndürmeyen parametre almayan bir fonksiyon
-    const promiseData : Promise<{ totalCount:number; products:List_Product[]}> = this.httpClientService.get<{totalCount:number; products: List_Product[]}>({
+  
+  async read(page:number = 0, size:number = 5 ,successCallBack?: () => void, errorCallBack?:(errorMessage:string) => void): Promise<{totalProductCount: number; products: List_Product[]}>{ //Gerite değer döndürmeyen parametre almayan bir fonksiyon
+    const promiseData : Promise<{ totalProductCount:number; products:List_Product[]}> = this.httpClientService.get<{totalProductCount:number; products: List_Product[]}>({
       controller:"product",
       queryString: `page=${page}&size=${size}`
     }).toPromise();
@@ -72,4 +72,13 @@ export class ProductService {
     await firstValueFrom(deleteObservable);
   }
   
+  async changeShowcaseImage(imageId: string, productId: string, successCallBack?: () => void) : Promise<void>{
+    const changeShowcaseImageObservable =  this.httpClientService.get({
+      controller: "product",
+      action: "ChangeShowcaseImage",
+      queryString: `imageId=${imageId}&productId=${productId}`,
+    });
+    await firstValueFrom(changeShowcaseImageObservable);
+    successCallBack();
+  }
 }

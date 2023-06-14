@@ -1,20 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ETicaretAPI.Persistence.Contexts;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.Abstractions.Services.Authentications;
 using ETicaretAPI.Application.Repository;
-using ETicaretAPI.Persistence.Repository;
-using ETicaretAPI.Persistence.Repository.File;
 using ETicaretAPI.Application.Repository.ProductImageFile;
 using ETicaretAPI.Domain.Entites.Identity;
-using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Persistence.Contexts;
+using ETicaretAPI.Persistence.Repository;
+using ETicaretAPI.Persistence.Repository.File;
 using ETicaretAPI.Persistence.Services;
-using ETicaretAPI.Application.Abstractions.Services.Authentications;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ETicaretAPI.Persistence
 {
