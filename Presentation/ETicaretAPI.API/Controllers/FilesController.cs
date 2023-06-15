@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretAPI.API.Controllers
 {
@@ -19,7 +18,7 @@ namespace ETicaretAPI.API.Controllers
         {
             return Ok(new
             {
-                Url = _configuration["BaseStorageUrl"]
+                Url =  _configuration["BaseStorageUrl"]
             });
         }
     }
