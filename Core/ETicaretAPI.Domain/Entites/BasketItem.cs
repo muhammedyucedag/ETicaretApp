@@ -2,7 +2,7 @@
 
 namespace ETicaretAPI.Domain.Entites
 {
-    public  class BasketItem : BaseEntity
+    public class BasketItem : BaseEntity
     {
         public Guid BasketId { get; set; }
         public Guid ProductId { get; set; }
