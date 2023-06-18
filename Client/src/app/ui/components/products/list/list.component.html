@@ -6,7 +6,7 @@
         <div class="card-body">
             <h5 class="card-title">{{product.name}}</h5>
             <p class="card-text">{{product.price | currency: '₺'}}</p>
-            <a href="#" class="btn btn-secondary">Sepete ekle</a>
+            <a class="btn btn-secondary" (click)="addToBasket(product)">Sepete ekle</a>
         </div>
     </div>
 </div>

@@ -8,12 +8,16 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     BasketsComponent
+
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {path:"",component:BasketsComponent}
     ])
+  ],
+  exports: [
+    BasketsComponent
   ]
 })
 export class BasketsModule { }

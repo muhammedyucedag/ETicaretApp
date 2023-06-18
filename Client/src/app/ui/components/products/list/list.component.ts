@@ -89,6 +89,12 @@ export class ListComponent implements OnInit {
                 this.pageList.push(i);
               }
         }
-    });
+    });  
+  }
+  
+  addToBasket(product:List_Product){
+
   }
 }
+
+
