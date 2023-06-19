@@ -6,26 +6,30 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Ürün</th>
-                <th scope="col">Fiyatı</th>
+                <th scope="col">Fiyat</th>
                 <th scope="col">Adet</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Ürün 1 </td>
-                <td>Fiyat 1</td>
+              <tr class="{{basketItem.basketItemId}}" *ngFor="let basketItem of basketItems;let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{basketItem.name}}</td>
+                <td>{{basketItem.price}}</td>
                 <td>
-                  <input type="number" value="11" style="width: 60px;"/> 
+                  <input type="number" [value]="basketItem.quantity" style="width:60px;" data-id="{{basketItem.basketItemId}}" (change)="changeQuantity($event)" />
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="removeBasketItem(basketItem.basketItemId)">X</button>
                 </td>
               </tr>
             </tbody>
-          </table>  
+          </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Kapat</button>

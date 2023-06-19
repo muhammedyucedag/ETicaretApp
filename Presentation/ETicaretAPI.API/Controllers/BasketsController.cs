@@ -11,11 +11,11 @@ namespace ETicaretAPI.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Admin")]
-    public class BasketController : ControllerBase
+    public class BasketsController : ControllerBase
     {
         readonly IMediator mediator;
 
-        public BasketController(IMediator mediator)
+        public BasketsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
