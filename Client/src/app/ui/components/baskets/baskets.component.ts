@@ -33,7 +33,7 @@ export class BasketsComponent extends BaseComponent implements OnInit{
     const quantity: number = object.target.value;
     const basketItem: Update_Basket_Item = new Update_Basket_Item();
     basketItem.basketItemId = basketItemId;
-    basketItem.Quantity = quantity;
+    basketItem.quantity = quantity;
     await this.basketService.updateQuantity(basketItem);
     this.hideSpinner(SpinnerType.BallAtom)
   }
