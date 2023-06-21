@@ -11,6 +11,8 @@ namespace ETicaretAPI.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        // Yetkilendirme alanı 
+
         readonly IMediator _mediator;
 
         public AuthController(IMediator mediator)
