@@ -17,7 +17,7 @@ export class DynmaicLoadComponentService {
 
     switch  (component){
       case ComponentType.BasketsComponent:
-        _component = await import("../../ui/components/baskets/baskets.component");
+        _component = (await import("../../ui/components/baskets/baskets.component")).BasketsComponent;
         break;
     }
 
