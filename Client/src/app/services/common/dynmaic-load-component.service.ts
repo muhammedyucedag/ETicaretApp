@@ -12,11 +12,11 @@ export class DynmaicLoadComponentService {
 
   constructor(private componentFactoryResolver : ComponentFactoryResolver) { }
 
-  async loadComponent(component:Component, viewContainerRef : ViewContainerRef){
+  async loadComponent(component:ComponentType, viewContainerRef : ViewContainerRef){
     let _component : any = null;
 
     switch  (component){
-      case Component.BasketsComponent:
+      case ComponentType.BasketsComponent:
         _component = await import("../../ui/components/baskets/baskets.component");
         break;
     }
@@ -26,6 +26,6 @@ export class DynmaicLoadComponentService {
   }
 }
 
-export enum Component {
+export enum ComponentType {
   BasketsComponent
 }
