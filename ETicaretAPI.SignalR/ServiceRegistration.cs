@@ -1,4 +1,5 @@
 ﻿using ETicaretAPI.SignalR.HubServices;
+using ETicaretAPI.SignalR.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,6 +15,7 @@ namespace ETicaretAPI.SignalR
         public static void AddSignalRServices(this IServiceCollection collection, ConfigurationManager configurationManager)
         {
             collection.AddTransient<IProductHubService, ProductHubService>();
+            collection.AddTransient<IOrderHubService, OrderHubService>();
             collection.AddSignalR();
         }
     }

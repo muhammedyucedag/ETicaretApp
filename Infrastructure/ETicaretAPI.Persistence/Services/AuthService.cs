@@ -97,7 +97,7 @@ namespace ETicaretAPI.Persistence.Services
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                Audience = new List<string> {_configuration["ExternalLoginSettings:Google:Client_Id"] }
+                Audience = new List<string> { _configuration["ExternalLoginSettings:Google:Client_Id"] }
             };
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
@@ -105,7 +105,7 @@ namespace ETicaretAPI.Persistence.Services
             var info = new UserLoginInfo("GOOGLE", payload.Subject, "GOOGLE");
             AppUser user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-            return await  CreateUserExternalAsync(user, payload.Email, payload.Name, info, accessTokenLifeTime);
+            return await CreateUserExternalAsync(user, payload.Email, payload.Name, info, accessTokenLifeTime);
         }
 
         // Login işlemi
