@@ -1,7 +1,9 @@
-﻿namespace ETicaretAPI.Application.Abstractions.Services
+﻿using ETicaretAPI.Application.DTOs.Order;
+
+namespace ETicaretAPI.Application.Abstractions.Services
 {
     public interface IOrderService
     {
-        Task CreateOrder();
+        Task CreateOrderAsync(CreateOrderDto createOrder);
     }
 }
