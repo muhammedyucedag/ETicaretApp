@@ -7,6 +7,7 @@ namespace ETicaretAPI.SignalR
     {
         public static void MapHubs(this WebApplication application)
         {
+            // Hub alanı
             application.MapHub<ProductHub>("/products-hub");
             application.MapHub<OrderHub>("/orders-hub");
         }

@@ -25,7 +25,7 @@ namespace ETicaretAPI.Application.Features.Commands.Order.CreateOrder
                 BasketId = _basketService.GetUserActiveBasket?.Id.ToString()
             });
 
-            await _orderHubService.OrderAddedMessageAsync("Yeni bir sipariş geldi!");
+            await _orderHubService.OrderAddedMessageAsync("Heyyy! Yeni bir sipariş geldi!");
             return new();
         }
     }
