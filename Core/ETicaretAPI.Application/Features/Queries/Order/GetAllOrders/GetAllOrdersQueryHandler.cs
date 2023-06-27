@@ -18,8 +18,8 @@ namespace ETicaretAPI.Application.Features.Queries.Order.GetAllOrders
 
             return new()
             {
-                TotalOrderCount = data.Count,
-                Orders = data.ToList(),
+                TotalOrderCount = data.TotalOrderCount,
+                Orders = data.Orders
             };
         }    
     }

@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DialogModule } from '@angular/cdk/dialog';
+import { DeleteDirectiveModule } from 'src/app/directives/admin/delete.directive.module';
 
 
 
@@ -29,7 +30,8 @@ import { DialogModule } from '@angular/cdk/dialog';
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
-    DialogModule
+    DialogModule,
+    DeleteDirectiveModule
   ]
 })
 export class OrderModule { }

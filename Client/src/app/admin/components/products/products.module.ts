@@ -12,6 +12,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FileUploadModule } from 'src/app/services/common/file-upload/file-upload.module';
 import { DialogModule } from 'src/app/dialogs/dialog.module';
+import { DeleteDirective } from 'src/app/directives/admin/delete.directive';
+import { DeleteDirectiveModule } from 'src/app/directives/admin/delete.directive.module';
 
 
 
@@ -25,6 +27,7 @@ import { DialogModule } from 'src/app/dialogs/dialog.module';
     ProductsComponent,
     CreateComponent,
     ListComponent,
+    
     ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import { DialogModule } from 'src/app/dialogs/dialog.module';
     MatTableModule,
     MatPaginatorModule,
     DialogModule,
-    FileUploadModule
+    FileUploadModule,
+    DeleteDirectiveModule
   ]
 })
 export class ProductsModule { }
