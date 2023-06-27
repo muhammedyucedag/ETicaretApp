@@ -1,16 +1,19 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
 using ETicaretAPI.Application.DTOs.Order;
 using ETicaretAPI.Application.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace ETicaretAPI.Persistence.Services
 {
     public class OrderService : IOrderService
     {
         readonly IOrderWriteRepository _orderWriteRepository;
+        readonly IOrderReadRepository _orderReadRepository;
 
-        public OrderService(IOrderWriteRepository orderWriteRepository)
+        public OrderService(IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository)
         {
             _orderWriteRepository = orderWriteRepository;
+            _orderReadRepository = orderReadRepository;
         }
 
         public async Task CreateOrderAsync(CreateOrderDto createOrder)
@@ -26,6 +29,23 @@ namespace ETicaretAPI.Persistence.Services
                 OrderCode = orderCode
             });
             await _orderWriteRepository.SaveAsync();
+        }
+
+        public async Task<List<ListOrder>> GetAllOrdersAsync()
+        {
+            return await _orderReadRepository.Table
+                .Include(o => o.Basket)
+                .ThenInclude(b => b.User)
+                .Include(o => o.Basket)
+                .ThenInclude(b => b.BasketItems)
+                .ThenInclude(bi => bi.Product)
+                .Select(o => new ListOrder
+                {
+                    CreatedDate = o.CreatedDate,
+                    OrderCode = o.OrderCode,
+                    TotalPirce = o.Basket.BasketItems.Sum(bi => bi.Product.Price * bi.Quantity),
+                    UsernName = o.Basket.User.UserName
+                }).ToListAsync();
         }
     }
 }
