@@ -1,12 +1,27 @@
-﻿using MediatR;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using MediatR;
 
 namespace ETicaretAPI.Application.Features.Queries.Order.GetAllOrders
 {
-    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQueryRequest, GetAllOrdersQueryResponse>
+    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQueryRequest, List<GetAllOrdersQueryResponse>>
     {
-        public Task<GetAllOrdersQueryResponse> Handle(GetAllOrdersQueryRequest request, CancellationToken cancellationToken)
+        private readonly IOrderService _orderService;
+
+        public GetAllOrdersQueryHandler(IOrderService orderService)
         {
-            throw new NotImplementedException();
+            _orderService = orderService;
+        }
+
+        public async Task<List<GetAllOrdersQueryResponse>> Handle(GetAllOrdersQueryRequest request, CancellationToken cancellationToken)
+        {
+           var data = await _orderService.GetAllOrdersAsync();
+            return data.Select(o => new GetAllOrdersQueryResponse
+            {
+                CreatedDate = o.CreatedDate,
+                OrderCode = o.OrderCode,
+                TotalPirce = o.TotalPirce,
+                UsernName = o.UsernName
+            }).ToList();
         }
     }
 }
