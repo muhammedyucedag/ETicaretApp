@@ -24,7 +24,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['name', 'stock', 'price', 'createdDate', 'updatedDate', 'photos', 'qrcode', 'edit', 'delete'];
+  displayedColumns: string[] = ['orderCode', 'username', 'totalPrice', 'createdDate', 'delete'];
   dataSource: MatTableDataSource<List_Product> = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
