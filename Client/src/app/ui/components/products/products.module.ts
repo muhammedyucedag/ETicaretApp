@@ -4,8 +4,6 @@ import { ProductsComponent } from './products.component';
 import { RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
 
-
-
 @NgModule({
   declarations: [
     ProductsComponent,
@@ -14,7 +12,7 @@ import { ListComponent } from './list/list.component';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path:"",component:ProductsComponent}
+      { path: "", component: ProductsComponent }
     ])
   ]
 })

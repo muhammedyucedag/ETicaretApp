@@ -14,7 +14,7 @@ declare var $: any;
 @Directive({
   selector: '[appDelete]'
 })
-export class DeleteDirectivet {
+export class DeleteDirective {
 
   constructor(
     private element: ElementRef, 

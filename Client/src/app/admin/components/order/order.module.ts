@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DialogModule } from '@angular/cdk/dialog';
-import { FileUploadModule } from 'src/app/services/common/file-upload/file-upload.module';
 
 
 
@@ -30,8 +29,7 @@ import { FileUploadModule } from 'src/app/services/common/file-upload/file-uploa
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
-    DialogModule,
-    FileUploadModule
+    DialogModule
   ]
 })
 export class OrderModule { }

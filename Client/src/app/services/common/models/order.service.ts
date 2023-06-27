@@ -11,19 +11,23 @@ export class OrderService {
 
   constructor(private httpClientService : HttpClientService) { }
 
-  async create(order : Create_Order){
+  async create(order : Create_Order): Promise<void>{
     const observable : Observable<any> = this.httpClientService.post({
       controller : "orders"
-    },order);
+    }, order);
 
     await firstValueFrom(observable);
   }
 
-  async getAllOrders(): Promise<List_Order[]>{
-    const observable : Observable<List_Order[]> = this.httpClientService.get({
-      controller : "orders"
+  async getAllOrders(page:number = 0, size:number = 5 , successCallBack?: () => void, errorCallBack?:(errorMessage:string) => void): Promise<{totalOrderCount:number; orders:List_Order[]}>{
+    const observable : Observable<{totalOrderCount:number; orders:List_Order[]}> = this.httpClientService.get({
+      controller : "orders",
+      queryString: `page=${page}&size=${size}`
     });
 
-    return await firstValueFrom(observable);
+    const promiseData = firstValueFrom(observable);
+    promiseData.then(value => successCallBack())
+      .catch(error => errorCallBack(error));
+    return await promiseData
   }
 }
