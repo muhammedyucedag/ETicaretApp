@@ -12,6 +12,7 @@ namespace ETicaretAPI.Application.Features.Queries.Order.GetAllOrders
             _orderService = orderService;
         }
 
+        // GetAllOrdersQueryHandler
         public async Task<GetAllOrdersQueryResponse> Handle(GetAllOrdersQueryRequest request, CancellationToken cancellationToken)
         {
            var data = await _orderService.GetAllOrdersAsync(request.Page, request.Size);
