@@ -23,10 +23,14 @@ export class OrderDetailDialogComponent extends BaseDialog<OrderDetailDialogComp
   displayedColumns: string[] = ['name', 'price', 'quantity', 'totalPrice'];
   dataSource = [];
   clickedRows = new Set<any>();
+  totalPrice:number;
 
   async ngOnInit(): Promise<void> {
       this.singleOrder = await this.orderService.getOrderById(this.data as string)
       this.dataSource = this.singleOrder.basketItems;
+
+      this.totalPrice = this.singleOrder.basketItems.map((basketItem, index) => basketItem.price * basketItem.quantity).reduce((price, current) => price + current);
+      
   }
 
 }
