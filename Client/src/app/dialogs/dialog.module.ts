@@ -11,6 +11,7 @@ import {MatCardModule} from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { BasketItemRemoveDialogComponent } from './basket-item-remove-dialog/basket-item-remove-dialog.component';
 import { BasketShoppingComploteDialogComponent } from './basket-shopping-complote-dialog/basket-shopping-complote-dialog.component';
+import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
 
 
 
@@ -19,7 +20,8 @@ import { BasketShoppingComploteDialogComponent } from './basket-shopping-complot
     DeleteDialogComponent,
     SelectProductImageDialogComponent,
     BasketItemRemoveDialogComponent,
-    BasketShoppingComploteDialogComponent
+    BasketShoppingComploteDialogComponent,
+    OrderDetailDialogComponent
   ],
   imports: [
     CommonModule,

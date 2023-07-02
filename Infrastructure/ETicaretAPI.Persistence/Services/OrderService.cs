@@ -48,6 +48,7 @@ namespace ETicaretAPI.Persistence.Services
                 TotalOrderCount = await query.CountAsync(),
                 Orders = await data.Select(o => new
                 {
+                    Id = o.Id,
                     CreatedDate = o.CreatedDate,
                     OrderCode = o.OrderCode,
                     TotalPirce = o.Basket.BasketItems.Sum(bi => bi.Product.Price * bi.Quantity),
