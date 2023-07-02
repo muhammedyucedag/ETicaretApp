@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { BasketItemRemoveDialogComponent } from './basket-item-remove-dialog/basket-item-remove-dialog.component';
 import { BasketShoppingComploteDialogComponent } from './basket-shopping-complote-dialog/basket-shopping-complote-dialog.component';
 import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -29,7 +30,8 @@ import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-d
     MatButtonModule,
     FileUploadModule,
     MatCardModule,
-    FormsModule
+    FormsModule,
+    MatTableModule
   ]
 })
 export class DialogModule { }
