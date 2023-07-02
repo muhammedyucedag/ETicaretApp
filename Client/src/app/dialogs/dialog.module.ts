@@ -13,6 +13,8 @@ import { BasketItemRemoveDialogComponent } from './basket-item-remove-dialog/bas
 import { BasketShoppingComploteDialogComponent } from './basket-shopping-complote-dialog/basket-shopping-complote-dialog.component';
 import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
 import { MatTableModule } from '@angular/material/table';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 
 
 
@@ -31,7 +33,8 @@ import { MatTableModule } from '@angular/material/table';
     FileUploadModule,
     MatCardModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule
   ]
 })
 export class DialogModule { }
