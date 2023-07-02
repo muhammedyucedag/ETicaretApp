@@ -2,28 +2,29 @@
 <mat-dialog-content class="mat-typography">
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 order-detail-table">
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let element">{{element.position}}</td>
-        </ng-container>
       
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let element">{{element.name}}</td>
         </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef>Weight</th>
-          <td mat-cell *matCellDef="let element">{{element.weight}}</td>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let element">{{element.price | currency : '₺'}}</td>
         </ng-container>
       
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef>Symbol</th>
-          <td mat-cell *matCellDef="let element">{{element.symbol}}</td>
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+        </ng-container>
+      
+        <!-- Total Price Column -->
+        <ng-container matColumnDef="totalPrice">
+          <th mat-header-cell *matHeaderCellDef>Total Price</th>
+          <td mat-cell *matCellDef="let element">{{element.price * element.quantity} | currency : '₺'}</td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -63,7 +63,7 @@ import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-
           onError: err => console.log(err)
         } as SocialAuthServiceConfig
       },
-      {provide:HTTP_INTERCEPTORS, useClass:HttpErrorHandlerInterceptorService, multi:true}
+      {provide:HTTP_INTERCEPTORS, useClass:HttpErrorHandlerInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent],
   schemas: [
