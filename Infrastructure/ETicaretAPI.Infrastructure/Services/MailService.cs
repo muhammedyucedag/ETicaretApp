@@ -14,12 +14,12 @@ namespace ETicaretAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task SendMessageAsync(string to, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
-            await SendMessageAsync(new[] { to }, subject, body, isBodyHtml);
+            await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
         }
 
-        public async Task SendMessageAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
         {
             MailMessage mail = new();
             mail.IsBodyHtml = isBodyHtml;
