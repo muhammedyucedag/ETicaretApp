@@ -143,5 +143,14 @@ namespace ETicaretAPI.Persistence.Services
             else
                 throw new NotFoundUserException();
         }
+
+        public async Task PasswordResetAsync(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            }
+        }
     }
 }

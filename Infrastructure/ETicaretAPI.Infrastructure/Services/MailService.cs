@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace ETicaretAPI.Infrastructure.Services
 {
@@ -39,6 +40,19 @@ namespace ETicaretAPI.Infrastructure.Services
             smtp.EnableSsl = true;
             smtp.Host = _configuration["Mail:Host"];
             await smtp.SendMailAsync(mail);
+        }
+
+        public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
+        {
+            StringBuilder mail = new();
+            mail.AppendLine("Merhaba<br> Eğer yeni şifre talebinde bulunduysanız aşağıdaki linkten şifrenizi yenileyebilirsiniz.<br><strong><a target= \"_blank\" href=\"............/");
+            mail.AppendLine(userId);
+            mail.AppendLine("/");
+            mail.AppendLine(resetToken);
+            mail.AppendLine("\">Yeni şifre talebi için tıklayınız.. </a></strong><br><br><span style=\"font-size:12px;\">Not : Eğer ki bu talep tarafınızca gerçekelitirilmemişse lütfen bu maili ciddiye almayınız.</span>");
+
+            await SendMailAsync(to, "Şifre yenileme talebi", mail.ToString());
+
         }
     }
 }

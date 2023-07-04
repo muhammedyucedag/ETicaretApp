@@ -28,7 +28,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet]
         public async Task<IActionResult> ExampleMailTest()
         {
-            await mailService.SendMessageAsync("muhammedyucedagg@gmail.com", "Örnek mail", "<strong> Bu bir örnek maildir. </strong>");
+            await mailService.SendMailAsync("muhammedyucedagg@gmail.com", "Örnek mail", "<strong> Bu bir örnek maildir. </strong>");
             return Ok();
         }
     }
