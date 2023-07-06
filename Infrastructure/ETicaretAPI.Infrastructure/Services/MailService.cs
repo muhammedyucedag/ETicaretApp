@@ -6,6 +6,7 @@ using System.Text;
 
 namespace ETicaretAPI.Infrastructure.Services
 {
+    // Mail servis alanı
     public class MailService : IMailService
     {
         private readonly IConfiguration _configuration;
@@ -30,7 +31,7 @@ namespace ETicaretAPI.Infrastructure.Services
             }
             mail.Subject = subject;
             mail.Body = body;
-            mail.From = new(_configuration["Mail:Username"],"NG E-Ticaret", System.Text.Encoding.UTF8);
+            mail.From = new(_configuration["Mail:Username"],"E-Ticaret", System.Text.Encoding.UTF8);
 
             // mail gönderme işlemi 
 
@@ -45,13 +46,13 @@ namespace ETicaretAPI.Infrastructure.Services
         public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
         {
             StringBuilder mail = new();
-            mail.AppendLine("Merhaba<br> Eğer şifre talebinde bulunduysanız aşağıdaki linkten şifrenizi yenileyebilirsiniz.<br><strong><a target= \"_blank\" href=\"");
+            mail.AppendLine("Merhaba<br> Şifre talebinde bulunduysanız linkten şifrenizi yenileyebilirsiniz.<br><strong><a target= \"_blank\" href=\"");
             mail.AppendLine(_configuration["AngularClientUrl"]);
             mail.AppendLine("/update-password/");
             mail.AppendLine(userId);
             mail.AppendLine("/");
             mail.AppendLine(resetToken);
-            mail.AppendLine("\">Yeni şifre talebi için tıklayınız.. </a></strong><br><br><span style=\"font-size:12px;\">Not : Eğer ki bu talep tarafınızca gerçekelitirilmemişse lütfen bu maili ciddiye almayınız.</span>");
+            mail.AppendLine("\">Yeni şifre talebi için tıklayınız. </a></strong><br><br><span style=\"font-size:12px;\">Not : Eğer ki bu talep tarafınızca gerçekelitirilmemişse lütfen bu maili ciddiye almayınız.</span>");
 
             await SendMailAsync(to, "Şifre talebi", mail.ToString());
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETicaretAPI.Application.Repository
 {
-    public interface IRepository<T> where T : BaseEntity // class olma garantisi veriyoruz 
+    public interface IRepository<T> where T : BaseEntity
     {
         DbSet<T> Table { get; }
     }
