@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClientService } from '../http-client.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../ui/custom-toastr.service';
 import { TokenResponse } from 'src/app/contracts/token/tokenResponse';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -94,5 +94,14 @@ export class UserAuthService {
         }
     
         callBackFunction();
+    }
+
+    async passwordReset(email:string, callBackFunction?: () => void){
+    const observable: Observable<any> = this.httpClientService.post({
+        controller : "auth",
+        action : "passowrd-reset"
+        }, {email: email});
+        await firstValueFrom(observable);
+        callBackFunction
     }
 }

@@ -6,8 +6,10 @@ using ETicaretAPI.Application.Exceptions;
 using ETicaretAPI.Domain.Entites.Identity;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text;
 using System.Text.Json;
 
 namespace ETicaretAPI.Persistence.Services
@@ -16,12 +18,13 @@ namespace ETicaretAPI.Persistence.Services
     {
         readonly IConfiguration _configuration;
         readonly ITokenHandler _tokenHandler;
+        readonly IMailService _mailService;
         readonly IUserService _userService;
         readonly HttpClient _httpClient;
         readonly UserManager<AppUser> _userManager;
         readonly SignInManager<AppUser> _signInManager;
 
-        public AuthService(IHttpClientFactory httpClientFactory, IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IUserService userService)
+        public AuthService(IHttpClientFactory httpClientFactory, IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IUserService userService, IMailService mailService)
         {
             _httpClient = httpClientFactory.CreateClient();
             _configuration = configuration;
@@ -29,6 +32,7 @@ namespace ETicaretAPI.Persistence.Services
             _tokenHandler = tokenHandler;
             _signInManager = signInManager;
             _userService = userService;
+            _mailService = mailService;
         }
 
 
@@ -150,6 +154,10 @@ namespace ETicaretAPI.Persistence.Services
             if (user != null)
             {
                 string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                byte[] tokenBytes = Encoding.UTF8.GetBytes(resetToken); // tokeni utf8 e dönüştürdük
+                resetToken = WebEncoders.Base64UrlEncode(tokenBytes); // şifrelemeyi yapıyoruz
+
+                await _mailService.SendPasswordResetMailAsync(email, user.Id, resetToken);
             }
         }
     }

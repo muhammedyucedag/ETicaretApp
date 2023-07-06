@@ -45,7 +45,9 @@ namespace ETicaretAPI.Infrastructure.Services
         public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
         {
             StringBuilder mail = new();
-            mail.AppendLine("Merhaba<br> Eğer yeni şifre talebinde bulunduysanız aşağıdaki linkten şifrenizi yenileyebilirsiniz.<br><strong><a target= \"_blank\" href=\"............/");
+            mail.AppendLine("Merhaba<br> Eğer yeni şifre talebinde bulunduysanız aşağıdaki linkten şifrenizi yenileyebilirsiniz.<br><strong><a target= \"_blank\" href=\"");
+            mail.AppendLine(_configuration["AngularClientUrl"]);
+            mail.AppendLine("/update-password/");
             mail.AppendLine(userId);
             mail.AppendLine("/");
             mail.AppendLine(resetToken);
