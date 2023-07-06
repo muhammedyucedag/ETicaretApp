@@ -49,6 +49,7 @@ namespace ETicaretAPI.API.Controllers
             return Ok(response);
         }
 
+        //Password reset için gerekli alan
         [HttpPost("passowrd-reset")]
         public async Task<IActionResult> PasswordReset([FromBody] PasswordResetCommandRequest passwordResetCommandRequest)
         {
