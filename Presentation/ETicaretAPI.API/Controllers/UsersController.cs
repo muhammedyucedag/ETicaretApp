@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
 using ETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
+using ETicaretAPI.Application.Features.Commands.AppUser.UpdatePassword;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,13 @@ namespace ETicaretAPI.API.Controllers
         {
             await mailService.SendMailAsync("muhammedyucedagg@gmail.com", "Örnek mail", "<strong> Bu bir örnek maildir. </strong>");
             return Ok();
+        }
+
+        [HttpPost("upadte-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordCommandRequest updatePasswordCommandRequest)
+        {
+            UpdatePasswordCommandResponse response = await mediator.Send(updatePasswordCommandRequest);
+            return Ok(response);
         }
     }
 }
