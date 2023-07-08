@@ -104,4 +104,18 @@ export class UserAuthService {
         await firstValueFrom(observable);
         callBackFunction
     }
+
+    async verifyResetToken(resetToken: string, userId: string, callBackFunction?: () => void):
+    Promise<boolean>{
+        const observable: Observable<any> = this.httpClientService.post({
+            controller : "auth",
+            action : "verify-reset-token"
+            }, {
+                resetToken: resetToken,
+                userId: userId
+            });
+            const state: boolean = await firstValueFrom(observable);
+            callBackFunction();
+            return state;
+    }
 }

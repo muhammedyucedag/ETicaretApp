@@ -3,6 +3,7 @@ using ETicaretAPI.Application.Abstractions.Token;
 using ETicaretAPI.Application.DTOs;
 using ETicaretAPI.Application.DTOs.Facebook;
 using ETicaretAPI.Application.Exceptions;
+using ETicaretAPI.Application.Helpers;
 using ETicaretAPI.Domain.Entites.Identity;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
@@ -154,11 +155,29 @@ namespace ETicaretAPI.Persistence.Services
             if (user != null)
             {
                 string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-                byte[] tokenBytes = Encoding.UTF8.GetBytes(resetToken); // tokeni utf8 e dönüştürdük
-                resetToken = WebEncoders.Base64UrlEncode(tokenBytes); // şifrelemeyi yapıyoruz
+
+                //byte[] tokenBytes = Encoding.UTF8.GetBytes(resetToken); // tokeni utf8 e dönüştürdük
+                //resetToken = WebEncoders.Base64UrlEncode(tokenBytes); // şifrelemeyi yapıyoruz
+
+                resetToken = resetToken.UrlEncode();
 
                 await _mailService.SendPasswordResetMailAsync(email, user.Id, resetToken);
             }
+        }
+
+        public async Task<bool> VerifyResetTokenAsync(string resetToken, string userId)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                //byte[] tokenBytes =  WebEncoders.Base64UrlDecode(resetToken);
+                //resetToken = Encoding.UTF8.GetString(tokenBytes);
+
+                resetToken = resetToken.UrlDecode();
+
+                return await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", resetToken);
+            }
+            return false;
         }
     }
 }
