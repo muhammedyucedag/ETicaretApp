@@ -13,5 +13,6 @@ namespace ETicaretAPI.Domain.Entites
 
         //public Customer Customer { get; set; }
         public Basket Basket { get; set; }
+        public CompletedOrder CompletedOrder { get; set; }
     }
 }
