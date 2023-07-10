@@ -14,6 +14,7 @@ import { BasketShoppingComploteDialogComponent } from './basket-shopping-complot
 import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
 import { MatTableModule } from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { CompleteOrderDialogComponent } from './complete-order-dialog/complete-order-dialog.component';
 
 
 
@@ -24,7 +25,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     SelectProductImageDialogComponent,
     BasketItemRemoveDialogComponent,
     BasketShoppingComploteDialogComponent,
-    OrderDetailDialogComponent
+    OrderDetailDialogComponent,
+    CompleteOrderDialogComponent
   ],
   imports: [
     CommonModule,
