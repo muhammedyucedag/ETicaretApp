@@ -21,15 +21,6 @@ namespace ETicaretAPI.Persistence.Services
             _completedOrderReadRepository = completedOrderReadRepository;
         }
 
-        public async Task CompleteOrderAsync(string id)
-        {
-            Order order = await _orderReadRepository.GetByIdAsync(id);
-            if (order != null)
-            {
-                await _completedOrderWriteRepository.AddAsync(new() { OrderId = Guid.Parse(id) });
-                await _completedOrderWriteRepository.SaveAsync();
-            }
-        }
 
         public async Task CreateOrderAsync(CreateOrderDto createOrder)
         {
@@ -88,26 +79,52 @@ namespace ETicaretAPI.Persistence.Services
 
         public async Task<SingleOrder> GetOrderByIdAsync(string id)
         {
-            var data = await _orderReadRepository.Table
+            var data =  _orderReadRepository.Table
                 .Include(o => o.Basket)
                 .ThenInclude(b => b.BasketItems)
-                .ThenInclude(bi => bi.Product)
-                .FirstOrDefaultAsync(o => o.Id == Guid.Parse(id));
+                .ThenInclude(bi => bi.Product);
+
+            var data2 = await (from order in data
+                        join completeOrder in _completedOrderReadRepository.Table
+                        on order.Id equals completeOrder.OrderId into co
+                        from _co in co.DefaultIfEmpty()
+                        select new
+                        {
+                            Id = order.Id,
+                            CreatedDate = order.CreatedDate,
+                            OrderCode = order.OrderCode,
+                            Basket = order.Basket,
+                            Completed = _co != null ? true : false,
+                            Address = order.Address,
+                            Description = order.Description
+                        }).FirstOrDefaultAsync(o => o.Id == Guid.Parse(id));
 
             return new()
             {
-                Id = data.Id.ToString(),
-                CreatedDate = data.CreatedDate,
-                BasketItems = data.Basket.BasketItems.Select(bi => new
+                Id = data2.Id.ToString(),
+                BasketItems = data2.Basket.BasketItems.Select(bi => new
                 {
                     bi.Product.Price,
                     bi.Product.Name,
                     bi.Quantity
                 }),
-                Address = data.Address,
-                Description = data.Description,
-                OrderCode = data.OrderCode
+                Address = data2.Address,
+                CreatedDate = data2.CreatedDate,
+                Description = data2.Description,
+                OrderCode = data2.OrderCode,
+                Completed  = data2.Completed
             };
+        }
+
+
+        public async Task CompleteOrderAsync(string id)
+        {
+            Order order = await _orderReadRepository.GetByIdAsync(id);
+            if (order != null)
+            {
+                await _completedOrderWriteRepository.AddAsync(new() { OrderId = Guid.Parse(id) });
+                await _completedOrderWriteRepository.SaveAsync();
+            }
         }
     }
 }
