@@ -16,9 +16,9 @@ namespace ETicaretAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string userName, string userSurname)
+        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string userName)
         {
-            string mail = $"Sayın {userName} {userSurname} Merhaba <br>" +
+            string mail = $"Sayın {userName} Merhaba <br>" +
                 $"{orderDate} tarihinde vermiş olduğunuz {orderCode} kodlu siparişiniz tamamlanıp kargo firmasına verilmiştir.";
             await SendMailAsync(to, $"{orderCode}Sipariş numaralı siparişiniz tamamlandı", mail);
         }

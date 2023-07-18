@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.DTOs.Order;
+﻿
+using ETicaretAPI.Application.DTOs.Order;
 
 namespace ETicaretAPI.Application.Abstractions.Services
 {
@@ -7,6 +8,6 @@ namespace ETicaretAPI.Application.Abstractions.Services
         Task CreateOrderAsync(CreateOrderDto createOrder);
         Task<ListOrder> GetAllOrdersAsync(int page, int size);
         Task<SingleOrder> GetOrderByIdAsync(string id);
-        Task CompleteOrderAsync(string id);
+        Task<(bool, CompletedOrderDto)> CompleteOrderAsync(string id);
     }
 }
