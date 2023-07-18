@@ -1,5 +1,4 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
-using ETicaretAPI.Domain.Entites;
 using MediatR;
 
 namespace ETicaretAPI.Application.Features.Queries.Order.GetOrderById
