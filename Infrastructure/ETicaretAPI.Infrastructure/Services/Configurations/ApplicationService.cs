@@ -1,6 +1,7 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services.Configurations;
 using ETicaretAPI.Application.CustomAttributes;
 using ETicaretAPI.Application.DTOs.Configuration;
+using ETicaretAPI.Application.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -44,7 +45,7 @@ namespace ETicaretAPI.Infrastructure.Services.Configurations
 
                                 ActionDto actionDto = new()
                                 {
-                                    ActionType = authorizeDefinitionAttribute.ActionType,
+                                    ActionType = Enum.GetName(typeof(ActionType), authorizeDefinitionAttribute.ActionType),
                                     Definition = authorizeDefinitionAttribute.Definition,
                                 };
 
@@ -54,6 +55,8 @@ namespace ETicaretAPI.Infrastructure.Services.Configurations
                                     actionDto.HttpType = httpAttribute.HttpMethods.First();
                                 else
                                     actionDto.HttpType = HttpMethods.Get; // Http değerini get olarak işaretliyoruz. (http gelmezse)
+
+                                actionDto.ActionCode = $"{actionDto.HttpType}.{actionDto.ActionType}.{actionDto.Definition.Replace(" ", "")}";
                                 menu.Actions.Add(actionDto);
                                 
                             }
