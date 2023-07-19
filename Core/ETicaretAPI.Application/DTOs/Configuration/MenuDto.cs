@@ -2,7 +2,7 @@
 {
     public class MenuDto
     {
-        public string MenuName { get; set; }
-        public List<ActionDto> Actions { get; set; }
+        public string Name { get; set; }
+        public List<ActionDto> Actions { get; set; } = new();
     }
 }
