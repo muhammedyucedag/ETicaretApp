@@ -4,6 +4,8 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent } from 'src/app/base/base.component';
 import { Menu } from 'src/app/contracts/application-configurations/menu';
+import { AuthorizeMenuDialogComponent } from 'src/app/dialogs/authorize-menu-dialog/authorize-menu-dialog.component';
+import { DialogService } from 'src/app/services/common/dialog.service';
 import { ApplicationService } from 'src/app/services/common/models/application.service';
 
 interface ExampleFlatNode {
@@ -17,25 +19,11 @@ interface FoodNode {
   children?: FoodNode[];
 }
 
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-      },
-      {
-        name: 'Orange',
-        children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-      },
-    ],
-  },
-];
+interface ITreeMenu {
+      name?: string,
+      actions?: ITreeMenu[],
+      code?: string
+}
 
 @Component({
   selector: 'app-authorize-menu',
@@ -44,12 +32,24 @@ const TREE_DATA: FoodNode[] = [
 })
 export class AuthorizeMenuComponent extends BaseComponent implements OnInit{
 
-  constructor(spinner: NgxSpinnerService, private applicationService: ApplicationService) {
+  constructor(spinner: NgxSpinnerService, private applicationService: ApplicationService, private dialogService: DialogService) {
     super(spinner)
   }
 
   async ngOnInit(){
-    this.dataSource.data = await this.applicationService.getAuthorizeDefinitionEndPoints();
+    this.dataSource.data = (await this.applicationService.getAuthorizeDefinitionEndPoints()).map(m => {
+      const treeMenu : ITreeMenu = {
+        name : m.name,
+        actions : m.actions.map(a => {
+          const _treeMenu: ITreeMenu = {
+            name: a.definition,
+            code: a.code
+          }
+          return _treeMenu;
+        })
+      };
+      return treeMenu;
+    });
   }
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(
@@ -58,20 +58,17 @@ export class AuthorizeMenuComponent extends BaseComponent implements OnInit{
   );
 
   treeFlattener = new MatTreeFlattener(
-    (menu: Menu, level: number) => {
+    (menu: ITreeMenu, level: number) => {
       return {
         expandable: menu.actions?.length > 0,
         name: menu.name,
         level: level,
+        code : menu.code
       };
     },
     menu => menu.level,
     menu => menu.expandable,
-    menu => menu.actions.map(a => {
-      const menu : Menu = new Menu();
-      menu.name = a.definition;
-      return menu;
-    }),
+    menu => menu.actions
   );
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
@@ -79,5 +76,17 @@ export class AuthorizeMenuComponent extends BaseComponent implements OnInit{
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
+  assingRole(code : string, name: string){
+    this.dialogService.openDialog({
+      componentType: AuthorizeMenuDialogComponent,
+      data: {code,name},
+      options: {
+        width: "750px"
+      },
+      afterClosed: () => {
+
+      }
+    })
+  }
 }
 
