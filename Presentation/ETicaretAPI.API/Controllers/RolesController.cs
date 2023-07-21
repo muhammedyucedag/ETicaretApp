@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using ETicaretAPI.Application.CustomAttributes;
+using ETicaretAPI.Application.Features.Commands.Role.CreateRole;
+using ETicaretAPI.Application.Features.Commands.Role.DeleteRole;
+using ETicaretAPI.Application.Features.Commands.Role.UpdateRole;
+using ETicaretAPI.Application.Features.Queries.Role.GetRoleById;
+using ETicaretAPI.Application.Features.Queries.Role.GetRoles;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretAPI.API.Controllers
@@ -9,33 +15,50 @@ namespace ETicaretAPI.API.Controllers
     [Authorize(AuthenticationSchemes = "Admin")]
     public class RolesController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetRoles()
+        readonly IMediator _mediator;
+
+        public RolesController(IMediator mediator)
         {
-            return Ok();
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Reading, Definition = "Get Roles", Menu = "Roles")]
+        public async Task<IActionResult> GetRoles([FromQuery] GetRolesQueryRequest getRolesQueryRequest)
+        {
+            GetRolesQueryResponse response = await _mediator.Send(getRolesQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet("{Id}")]
-        public IActionResult GetRoles(string Id)
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Reading, Definition  = "Get Role By Id", Menu = "Roles")]
+        public async Task<IActionResult> GetRoles([FromRoute] GetRoleByIdQueryRequest getRoleByIdQueryRequest)
         {
-            return Ok();
+            GetRoleByIdQueryResponse response = await _mediator.Send(getRoleByIdQueryRequest);
+            return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult CreateRole()
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Writing, Definition = "Create Role", Menu = "Roles")]
+        public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommandRequest createRoleCommandRequest)
         {
-            return Ok();
+            CreateRoleCommandResponse response = await _mediator.Send(createRoleCommandRequest);
+            return Ok(response);
         }
 
         [HttpPut("{Id}")]
-        public IActionResult UpdateRole()
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Updating, Definition = "Update Role", Menu = "Roles")]
+        public async Task<IActionResult> UpdateRole([FromBody, FromRoute] UpdateRoleCommandRequest updateRoleCommandRequest)
         {
-            return Ok();
+            UpdateRoleCommandResponse response = await _mediator.Send(updateRoleCommandRequest);
+            return Ok(response);
         }
         [HttpPut("{name}")]
-        public IActionResult DeleteRole()
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Deleting, Definition = "Delete Role", Menu = "Roles")]
+        public async Task<IActionResult> DeleteRole([FromRoute] DeleteRoleCommandRequest deleteRoleCommandRequest)
         {
-            return Ok();
+            DeleteRoleCommandResponse response = await _mediator.Send(deleteRoleCommandRequest);
+            return Ok(response);
         }
     }
 }
