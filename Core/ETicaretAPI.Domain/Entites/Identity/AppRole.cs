@@ -2,7 +2,7 @@
 
 namespace ETicaretAPI.Domain.Entites.Identity
 {
-    public class AppRole : IdentityRole
+    public class AppRole : IdentityRole<string>
     {
     }
 }
