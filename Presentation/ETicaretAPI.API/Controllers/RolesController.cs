@@ -53,7 +53,7 @@ namespace ETicaretAPI.API.Controllers
             UpdateRoleCommandResponse response = await _mediator.Send(updateRoleCommandRequest);
             return Ok(response);
         }
-        [HttpPut("{name}")]
+        [HttpDelete("{Id}")]
         [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Deleting, Definition = "Delete Role", Menu = "Roles")]
         public async Task<IActionResult> DeleteRole([FromRoute] DeleteRoleCommandRequest deleteRoleCommandRequest)
         {
