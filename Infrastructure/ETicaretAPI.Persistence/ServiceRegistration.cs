@@ -30,6 +30,12 @@ namespace ETicaretAPI.Persistence
             }).AddEntityFrameworkStores<ETicaretAPIDbContext>()
             .AddDefaultTokenProviders();
 
+            services.AddScoped<IMenuReadRepository, MenuReadRepository>();
+            services.AddScoped<IMenuWriteRepository, MenuWriteRepository>();
+
+            services.AddScoped<IEndpointReadRepository, EndpointReadRepository>();
+            services.AddScoped<IEndpointWriteRepository, EndpointWriteRepository>();
+
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
 

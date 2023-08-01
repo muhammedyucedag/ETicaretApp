@@ -7,7 +7,7 @@ using ETicaretAPI.Application.Features.Queries.Role.GetRoles;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+ 
 namespace ETicaretAPI.API.Controllers
 {
     [Route("api/[controller]")]
